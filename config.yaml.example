@@ -1,0 +1,23 @@
+---
+backup_storage_path: /tmp
+
+cron_files: "31 16 * * *"
+cron_db: "32 16 * * *"
+name_zip_file: backup.zip
+time_zone: "Europe/Moscow"
+
+backup_source_files_path:
+  projects:
+    - - project_name: redmine
+        dirs: "/tmp/test1,/tmp/test2"
+      - project_name: redmine2
+        dirs: "/tmp/test3,/tmp/test4"
+
+database:
+  host: localhost
+  user: postgres
+  password: 1234
+  port: 5432
+  options: ""
+  dbnames:
+    - demo

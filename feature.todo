@@ -1,0 +1,7 @@
+✔ create functional for creating DB backup @done (21.03.2020, 11:59:38)
+☐ create encryption backups
+☐ send message to topik rabbitmq
+☐ turn on compress of backup
+☐ create sending backup to yandex disk
+☐ create metrics
+☐ create backup all databases by flag "all" in config
