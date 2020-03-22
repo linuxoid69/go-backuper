@@ -9,22 +9,30 @@ import (
 	"time"
 )
 
+var (
+	configPath = "./config.yaml"
+)
+
 func init() {
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 	log.Printf("Start application")
 }
 
 func main() {
-	cfg, err := config.LoadConfig()
+	cfg, err := config.LoadConfig(configPath)
 
 	if err != nil {
 		log.Fatalf("Can't load config %v: ", err)
 	}
+
 	l,_ := time.LoadLocation(cfg.TimeZone)
+
 	c := cron.New(
 		cron.WithLocation(l),
 	)
+
 	log.Println(l)
+
 	c.AddFunc(cfg.CronFiles, func() {
 		bf.CreateArchives(cfg)
 	})

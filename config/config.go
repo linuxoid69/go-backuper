@@ -30,9 +30,9 @@ func readConfig(path string) ([]byte, error) {
 }
 
 // LoadConfig -load config from config.yaml
-func LoadConfig() (*Config, error) {
+func LoadConfig(configPath string) (*Config, error) {
 	conf := Config{}
-	dat, err := readConfig("./config.yaml")
+	dat, err := readConfig(configPath)
 	if err != nil {
 		return &conf, err
 	}
