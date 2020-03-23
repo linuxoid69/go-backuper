@@ -1,6 +1,6 @@
 # go-backuper
 ![Go](https://github.com/linuxoid69/go-backuper/workflows/Go/badge.svg)
-![Docker Image CI](https://github.com/linuxoid69/go-backuper/workflows/Docker%20Image%20CI/badge.svg)
+![Docker Image CI](https://github.com/linuxoid69/go-backuper/workflows/Docker%20Image%20CI/badge.svg)  
 The tool for backup files and DB (postgres)  
 Below consider the example config.
 ```yaml
