@@ -32,3 +32,8 @@ jobs:
 
     - name: Build
       run: go build -v .
+
+    - uses: actions/upload-artifact@v1
+      with:
+        name: go-backuper
+        path: go-backuper
