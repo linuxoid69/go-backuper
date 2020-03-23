@@ -1,4 +1,5 @@
 # go-backuper
+![Go](https://github.com/linuxoid69/go-backuper/workflows/Go/badge.svg)
 
 The tool for backup files and DB (postgres)  
 Below consider the example config.
