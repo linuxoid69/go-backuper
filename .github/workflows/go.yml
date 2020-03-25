@@ -41,5 +41,5 @@ jobs:
     - name: Docker Image CI
       uses: peter-evans/repository-dispatch@v1
       with:
-        token: ${{ secrets.REPO_ACCESS_TOKEN }}
+        token: "${{ secrets.REPO_ACCESS_TOKEN }}"
         event-type: docker-build
