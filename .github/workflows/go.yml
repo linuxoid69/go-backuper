@@ -37,3 +37,9 @@ jobs:
       with:
         name: go-backuper
         path: go-backuper
+
+    - name: Docker Image CI
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        token: ${{ secrets.CI_CD_TOKEN }}
+        event-type: docker-build
