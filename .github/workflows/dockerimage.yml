@@ -8,9 +8,11 @@ jobs:
   dockerBuild:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v1
+
     - uses: actions/download-artifact@v1
       with:
-        name: go-backuper
+        name: go-backuper.v0.1.0
 
 
     - name: Build the Docker image
