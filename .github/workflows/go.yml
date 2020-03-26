@@ -35,7 +35,7 @@ jobs:
 
     - uses: actions/upload-artifact@v1
       with:
-        name: go-backuper
+        name: go-backuper-v0.1.0
         path: go-backuper
 
     - name: Docker Image CI
