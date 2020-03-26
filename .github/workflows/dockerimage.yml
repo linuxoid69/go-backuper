@@ -15,7 +15,9 @@ jobs:
         export ARTIFACT=$(curl -L "https://api.github.com/repos/linuxoid69/go-backuper/actions/artifacts" -H "Accept: application/vnd.github.full+json" -H "Authorization: token ${{ secrets.REPO_ACCESS_TOKEN }}" | jq ".artifacts | .[0] | .archive_download_url") && curl -L $(echo ${ARTIFACT} | sed -r s#\"##g)  -H "Accept: application/vnd.github.full+json" -H "Authorization: token ${{ secrets.REPO_ACCESS_TOKEN }}" -o go-backuper.zip && unzip go-backuper.zip
 
     - name: Build the Docker image
-      run: docker build .  --tag docker.io/linuxoid69/go-backuper:0.1.0
+      run: |
+        docker build .  --tag docker.io/linuxoid69/go-backuper:0.1.0
+        docker tag docker.io/linuxoid69/go-backuper:0.1.0 docker.io/linuxoid69/go-backuper:latest
 
     - name: Deploy the Docker image
       run: |
