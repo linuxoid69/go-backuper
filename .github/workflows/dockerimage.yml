@@ -11,7 +11,7 @@ jobs:
     - uses: actions/download-artifact@v1
       with:
         name: go-backuper
-        path: go-backuper
+
 
     - name: Build the Docker image
       run: docker build .  --tag docker.io/linuxoid69/go-backuper:0.1.0
