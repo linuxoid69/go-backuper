@@ -4,7 +4,7 @@ COPY go-backuper /opt/
 
 RUN chmod +x /opt/go-backuper && \
     apk update && \
-    apk add postgresql-client && \
+    apk add postgresql-client tzdata && \
     mkdir -p /mnt/backups && \
     mkdir -p /mnt/data
 
