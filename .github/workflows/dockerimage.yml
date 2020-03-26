@@ -12,7 +12,7 @@ jobs:
 
     - uses: actions/download-artifact@v1
       with:
-        name: go-backuper.v0.1.0
+        name: go-backuper
 
 
     - name: Build the Docker image
