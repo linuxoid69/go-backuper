@@ -23,17 +23,17 @@ func CreateBackupPostgresDB(cfg *config.Config, db string) error {
 		fmt.Sprintf("-U%v", cfg.Database.User),
 		fmt.Sprintf("-f%v.sql", cfg.BackupStoragePath+"/"+db),
 		fmt.Sprintf("-d%v", db),
+		fmt.Sprintf("-w%v", ""),
 	}
 
 	if cfg.Database.Options != "" {
 		pgOptions = append(pgOptions, strings.Split(cfg.Database.Options, " ")...)
 	}
 
+	os.Setenv("PGPASSWORD", cfg.Database.Password)
+
 	cmd := exec.Command(PGDumpCmd, pgOptions...)
-
 	out, err := cmd.CombinedOutput()
-
-	cmd.Env = append(os.Environ(), fmt.Sprintf("PGPASSWORD=%v", cfg.Database.Password))
 
 	if err != nil {
 		log.Printf("Error %v + %v", err, string(out))
