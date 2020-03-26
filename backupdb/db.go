@@ -33,7 +33,7 @@ func CreateBackupPostgresDB(cfg *config.Config, db string) error {
 
 	out, err := cmd.CombinedOutput()
 
-	cmd.Env = append(os.Environ(), fmt.Sprintf("PGPASSWORD=%v ", cfg.Database.Password))
+	cmd.Env = append(os.Environ(), fmt.Sprintf("PGPASSWORD=%v", cfg.Database.Password))
 
 	if err != nil {
 		log.Printf("Error %v + %v", err, string(out))
