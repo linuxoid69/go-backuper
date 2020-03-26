@@ -1,16 +1,19 @@
 package main
 
 import (
-	"github.com/robfig/cron"
 	bdb "github.com/linuxoid69/go-backuper/backupdb"
 	bf "github.com/linuxoid69/go-backuper/backupfiles"
 	"github.com/linuxoid69/go-backuper/config"
+	"github.com/robfig/cron"
 	"log"
+	"os"
 	"time"
 )
 
 var (
 	configPath = "./config.yaml"
+	cfg *config.Config
+	err error
 )
 
 func init() {
@@ -19,13 +22,18 @@ func init() {
 }
 
 func main() {
-	cfg, err := config.LoadConfig(configPath)
+
+	if os.Getenv("CONFIG") != "" {
+		cfg, err = config.LoadConfig(os.Getenv("CONFIG"))
+	} else {
+		cfg, err = config.LoadConfig(configPath)
+	}
 
 	if err != nil {
 		log.Fatalf("Can't load config %v: ", err)
 	}
 
-	l,_ := time.LoadLocation(cfg.TimeZone)
+	l, _ := time.LoadLocation(cfg.TimeZone)
 
 	c := cron.New(
 		cron.WithLocation(l),

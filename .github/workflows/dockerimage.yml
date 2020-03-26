@@ -8,6 +8,12 @@ jobs:
   dockerBuild:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/download-artifact@v1
+    - name: Get go-backuper
+      with:
+        name: go-backuper
+        path: go-backuper
+
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      run: docker build .  --tag docker.io/linuxoid69/go-backuper:0.1.0
