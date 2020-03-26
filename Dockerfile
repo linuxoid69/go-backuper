@@ -2,7 +2,8 @@ FROM alpine:3.9.5
 
 COPY go-backuper /opt/
 
-RUN apk update && \
+RUN chmod +x /opt/go-backuper && \
+    apk update && \
     apk add postgresql-client && \
     mkdir -p /mnt/backups && \
     mkdir -p /mnt/data
