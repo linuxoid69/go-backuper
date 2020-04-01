@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+	"time"
 )
 
 var (
@@ -67,8 +68,9 @@ func CreateAllPostgresDB(cfg *config.Config) (SQLList []string, err error) {
 
 // CreateArchiveDB create zip archives for db
 func CreateArchiveDB(SQLList []string) error {
+	t := strings.Replace(time.Now().Format("02-01-2006"), "-", "_", 2)
 	for _, i := range SQLList {
-		err := bf.CreateArchive([]string{i}, i+".zip")
+		err := bf.CreateArchive([]string{i}, i + "_" + t + ".zip")
 
 		if err != nil {
 			log.Printf("Creating ZIP archive for '%v' - by path %v", i, i+".zip")
