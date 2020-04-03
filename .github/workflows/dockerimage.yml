@@ -21,11 +21,11 @@ jobs:
 
     - name: Build the Docker image
       run: |
-        docker build .  --tag docker.io/linuxoid69/go-backuper:0.1.1
-        docker tag docker.io/linuxoid69/go-backuper:0.1.1 docker.io/linuxoid69/go-backuper:latest
+        docker build .  --tag docker.io/linuxoid69/go-backuper:0.1.2
+        docker tag docker.io/linuxoid69/go-backuper:0.1.2 docker.io/linuxoid69/go-backuper:latest
 
     - name: Deploy the Docker image
       run: |
         docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
-        docker push docker.io/linuxoid69/go-backuper:0.1.1
+        docker push docker.io/linuxoid69/go-backuper:0.1.2
         docker push docker.io/linuxoid69/go-backuper:latest

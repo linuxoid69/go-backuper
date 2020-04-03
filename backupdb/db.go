@@ -18,11 +18,12 @@ var (
 
 // CreateBackupPostgresDB - create postgres backup
 func CreateBackupPostgresDB(cfg *config.Config, db string) error {
+	t := strings.Replace(time.Now().Format("02-01-2006"), "-", "_", 2)
 	pgOptions := []string{
 		fmt.Sprintf("-h%v", cfg.Database.Host),
 		fmt.Sprintf("-p%v", cfg.Database.Port),
 		fmt.Sprintf("-U%v", cfg.Database.User),
-		fmt.Sprintf("-f%v.sql", cfg.BackupStoragePath+"/"+db),
+		fmt.Sprintf("-f%v_%v.sql", cfg.BackupStoragePath+"/"+db, t),
 		fmt.Sprintf("-d%v", db),
 		fmt.Sprintf("-w%v", ""),
 	}
@@ -68,9 +69,8 @@ func CreateAllPostgresDB(cfg *config.Config) (SQLList []string, err error) {
 
 // CreateArchiveDB create zip archives for db
 func CreateArchiveDB(SQLList []string) error {
-	t := strings.Replace(time.Now().Format("02-01-2006"), "-", "_", 2)
 	for _, i := range SQLList {
-		err := bf.CreateArchive([]string{i}, i + "_" + t + ".zip")
+		err := bf.CreateArchive([]string{i}, i + ".zip")
 
 		if err != nil {
 			log.Printf("Creating ZIP archive for '%v' - by path %v", i, i+".zip")
