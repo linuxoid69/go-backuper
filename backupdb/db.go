@@ -50,7 +50,8 @@ func CreateBackupPostgresDB(cfg *config.Config, db string) error {
 }
 
 // CreateAllPostgresDB - create all DB from config
-func CreateAllPostgresDB(cfg *config.Config) (SQLList []string, err error) {
+func CreateAllPostgresDB(cfg *config.Config) (dumpList []string, err error) {
+	t := strings.Replace(time.Now().Format("02-01-2006"), "-", "_", 2)
 	for _, i := range cfg.Database.DBnames {
 		log.Printf("Create backup for %v", i)
 
@@ -60,16 +61,17 @@ func CreateAllPostgresDB(cfg *config.Config) (SQLList []string, err error) {
 			log.Printf("Error create backup db '%v' -  %v", i, err)
 			return []string{}, err
 		}
-		SQLList = append(SQLList, cfg.BackupStoragePath+"/"+i+".sql")
+		dumpFilePath := fmt.Sprintf("%v/%v_%v.sql", cfg.BackupStoragePath, i, t )
+		dumpList = append(dumpList, dumpFilePath)
 		log.Printf("Creating backup file SQL for db '%v'  - success", i)
 
 	}
-	return SQLList, nil
+	return dumpList, nil
 }
 
 // CreateArchiveDB create zip archives for db
-func CreateArchiveDB(SQLList []string) error {
-	for _, i := range SQLList {
+func CreateArchiveDB(dumpList []string) error {
+	for _, i := range dumpList {
 		err := bf.CreateArchive([]string{i}, i + ".zip")
 
 		if err != nil {
