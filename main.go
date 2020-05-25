@@ -34,11 +34,8 @@ func main() {
 	}
 
 	l, _ := time.LoadLocation(cfg.TimeZone)
-
-	c := cron.New(
-		cron.WithLocation(l),
-	)
-
+	c := cron.New()
+	cron.NewWithLocation(l)
 	log.Println(l)
 
 	c.AddFunc(cfg.CronFiles, func() {
