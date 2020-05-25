@@ -24,14 +24,14 @@ jobs:
 
     - name: Get dependencies
       run: |
-        go get -v -t -d ./...
-        if [ -f Gopkg.toml ]; then
-            curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-            dep ensure
+        if [ -f go.mod ]; then
+          go mod vendor
+        else
+          go get -v -t -d ./...
         fi
 
     - name: Build
-      run: go build -v .
+      run: go build -ldflags="-s -w" -v .
 
     - uses: actions/upload-artifact@v1
       with:
