@@ -13,9 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: Set version
-      id: set_version
-      run: echo "::set-output name=app_version::v0.2.0"
+    - name: Get version
+      run: VERSION=$(cat VERSION)
 
     - name: Set up Go 1.13
       uses: actions/setup-go@v1
@@ -39,7 +38,7 @@ jobs:
 
     - uses: actions/upload-artifact@v1
       with:
-        name: go-backuper-${{ APP_VERSION }}
+        name: go-backuper-${VERSION}
         path: go-backuper
 
     - name: Docker Image CI

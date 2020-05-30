@@ -10,6 +10,10 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
+    - name: Get version
+      run: VERSION=$(cat VERSION)
+
+
     - name: Get an artifact
       run: |
         export ARTIFACT=$(curl -L "https://api.github.com/repos/linuxoid69/go-backuper/actions/artifacts" \
@@ -21,12 +25,12 @@ jobs:
 
     - name: Build the Docker image
       run: |
-        echo "my var: ${{ jobs.build.steps.set_version.outputs.app_version }}"
-        docker build .  --tag docker.io/linuxoid69/go-backuper:${{ jobs.build.steps.set_version.outputs.app_version }}
-        docker tag docker.io/linuxoid69/go-backuper:${{ jobs.build.steps.set_version.outputs.app_version }} docker.io/linuxoid69/go-backuper:latest
+        echo "my var: ${VERSION}"
+        docker build .  --tag docker.io/linuxoid69/go-backuper:${VERSION}
+        docker tag docker.io/linuxoid69/go-backuper:${VERSION} docker.io/linuxoid69/go-backuper:latest
 
     - name: Deploy the Docker image
       run: |
         docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
-        docker push docker.io/linuxoid69/go-backuper:${{ jobs.build.steps.set_version.outputs.app_version }}
+        docker push docker.io/linuxoid69/go-backuper:${VERSION}
         docker push docker.io/linuxoid69/go-backuper:latest
