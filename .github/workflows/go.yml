@@ -19,14 +19,11 @@ jobs:
         go-version: 1.13
       id: go
 
-    - name: Get version
-      run: pwd
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v2
 
     - name: Get version
       run: VERSION=$(cat VERSION)
-
-    - name: Check out code into the Go module directory
-      uses: actions/checkout@v2
 
     - name: Get dependencies
       run: |

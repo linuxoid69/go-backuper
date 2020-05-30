@@ -11,10 +11,7 @@ jobs:
     - uses: actions/checkout@v1
 
     - name: Get version
-      run: |
-        ls -l
-        VERSION=$(cat VERSION)
-
+      run: VERSION=$(cat VERSION)
 
     - name: Get an artifact
       run: |
