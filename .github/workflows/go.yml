@@ -6,15 +6,15 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  VERSION: v0.2.0
+
 jobs:
 
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
-
-    - name: Set version
-      run: echo '::set-env name=VERSION::v0.2.0'
 
     - name: Set up Go 1.13
       uses: actions/setup-go@v1
@@ -38,7 +38,7 @@ jobs:
 
     - uses: actions/upload-artifact@v1
       with:
-        name: go-backuper-$VERSION
+        name: go-backuper-${{ env.VERSION }}
         path: go-backuper
 
     - name: Docker Image CI
