@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Set version
+      run: echo "Set version"
       env:
         version: 0.2.0
 
