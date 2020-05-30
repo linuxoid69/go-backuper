@@ -21,12 +21,12 @@ jobs:
 
     - name: Build the Docker image
       run: |
-        echo "my var: ${{ jobs.build.steps.env.version }}"
-        docker build .  --tag docker.io/linuxoid69/go-backuper:${{ jobs.build.steps.env.version }}
-        docker tag docker.io/linuxoid69/go-backuper:${{ jobs.build.steps.env.version }} docker.io/linuxoid69/go-backuper:latest
+        echo "my var: ${{ env.APP_VERSION }}"
+        docker build .  --tag docker.io/linuxoid69/go-backuper:${{ env.APP_VERSION }}
+        docker tag docker.io/linuxoid69/go-backuper:${{ env.APP_VERSION }} docker.io/linuxoid69/go-backuper:latest
 
     - name: Deploy the Docker image
       run: |
         docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
-        docker push docker.io/linuxoid69/go-backuper:${{ jobs.build.steps.env.version }}
+        docker push docker.io/linuxoid69/go-backuper:${{ env.APP_VERSION }}
         docker push docker.io/linuxoid69/go-backuper:latest
