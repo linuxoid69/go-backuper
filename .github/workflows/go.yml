@@ -12,6 +12,8 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
+    env:
+    - version: 0.2.0
 
     - name: Set up Go 1.13
       uses: actions/setup-go@v1
@@ -21,9 +23,6 @@ jobs:
 
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
-
-    - name: Get version
-      run: export VERSION=$(cat VERSION)
 
     - name: Get dependencies
       run: |
@@ -38,7 +37,7 @@ jobs:
 
     - uses: actions/upload-artifact@v1
       with:
-        name: go-backuper-${VERSION}
+        name: go-backuper-${{ jobs.build.steps.env.version }}
         path: go-backuper
 
     - name: Docker Image CI
