@@ -21,6 +21,7 @@ jobs:
 
     - name: Build the Docker image
       run: |
+        echo "my var: ${APP_VERSION}"
         docker build .  --tag docker.io/linuxoid69/go-backuper:${APP_VERSION}
         docker tag docker.io/linuxoid69/go-backuper:${APP_VERSION} docker.io/linuxoid69/go-backuper:latest
 
