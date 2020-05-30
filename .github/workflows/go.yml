@@ -13,11 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: set environment variables
-      uses: allenevans/set-env@v1.0.0
-      with:
-        overwrite: false
-        APP_VERSION: v0.2.0
+    - name: Set version
+      id: set_version
+      run: echo "::set-env name=APP_VERSION::v0.2.0"
 
     - name: Set up Go 1.13
       uses: actions/setup-go@v1
@@ -41,7 +39,7 @@ jobs:
 
     - uses: actions/upload-artifact@v1
       with:
-        name: go-backuper-${APP_VERSION}
+        name: go-backuper-${{ APP_VERSION }}
         path: go-backuper
 
     - name: Docker Image CI
