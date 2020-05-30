@@ -3,7 +3,9 @@ name: Docker Image CI
 on:
   repository_dispatch:
     types: [docker-build]
-
+env:
+  APP_VERSION: 0.2.0
+  
 jobs:
   dockerBuild:
     runs-on: ubuntu-latest
