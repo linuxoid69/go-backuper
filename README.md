@@ -1,8 +1,13 @@
 # go-backuper
+
 ![Go](https://github.com/linuxoid69/go-backuper/workflows/Go/badge.svg)
 ![Docker Image CI](https://github.com/linuxoid69/go-backuper/workflows/Docker%20Image%20CI/badge.svg)  
+
+## Manual
+
 The tool for backup files and DB (postgres)  
-Below consider the example config.
+Below consider the example of config.  
+
 ```yaml
 # path where storage backups
 backup_storage_path: /mnt/data
@@ -10,6 +15,11 @@ backup_storage_path: /mnt/data
 # Name a zip file suffix. File will be look as <project_name>_19_03_2020_backup.zip
 # project_name - from section backup_source_files_path. See below.
 name_zip_file: backup.zip
+
+# If you want to encrypt your backups set true
+encrypt_backup: true
+# Password is for encrypt your backups
+encrypt_password: "1234"
 
 # You time zone
 time_zone: "Europe/Moscow"
@@ -35,4 +45,23 @@ database:
   options: "" # additional options e.g. "-v -j3" among flags must be one whitespace and between flag and value don't be whitespace
   dbnames:
     - demo
+```
+
+### Command line
+
+```shell
+Usage of ./go-backuper:
+  -c string
+        config (default "./config.yaml")
+  -d    Run as daemon
+  -f string
+        Name of a file is for decrypt
+  -p string
+        Password is for decrypt
+```
+
+If you need decrypt file run that command:
+
+```bash
+./go-backuper -f test.txt.enc -p 1234
 ```
