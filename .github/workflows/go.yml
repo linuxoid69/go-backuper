@@ -14,7 +14,9 @@ jobs:
     steps:
 
     - name: Get version
-      run: VERSION=$(cat VERSION)
+      run: |
+        ls -l
+        VERSION=$(cat VERSION)
 
     - name: Set up Go 1.13
       uses: actions/setup-go@v1
