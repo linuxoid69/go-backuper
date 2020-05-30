@@ -5,6 +5,8 @@ cron_files: "31 16 * * *"
 cron_db: "32 16 * * *"
 name_zip_file: backup.zip
 time_zone: "Europe/Moscow"
+encrypt_backup: true
+encrypt_password: "1234"
 
 backup_source_files_path:
   projects:

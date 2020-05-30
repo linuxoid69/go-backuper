@@ -61,7 +61,7 @@ func CreateAllPostgresDB(cfg *config.Config) (dumpList []string, err error) {
 			log.Printf("Error create backup db '%v' -  %v", i, err)
 			return []string{}, err
 		}
-		dumpFilePath := fmt.Sprintf("%v/%v_%v.sql", cfg.BackupStoragePath, i, t )
+		dumpFilePath := fmt.Sprintf("%v/%v_%v.sql", cfg.BackupStoragePath, i, t)
 		dumpList = append(dumpList, dumpFilePath)
 		log.Printf("Creating backup file SQL for db '%v'  - success", i)
 
@@ -70,13 +70,14 @@ func CreateAllPostgresDB(cfg *config.Config) (dumpList []string, err error) {
 }
 
 // CreateArchiveDB create zip archives for db
-func CreateArchiveDB(dumpList []string) error {
+func CreateArchiveDB(dumpList []string) (backupFiles []string, err error) {
 	for _, i := range dumpList {
-		err := bf.CreateArchive([]string{i}, i + ".zip")
+		backupFile := fmt.Sprintf("%v.zip", i)
+		err = bf.CreateArchive([]string{i}, backupFile)
 
 		if err != nil {
 			log.Printf("Creating ZIP archive for '%v' - by path %v", i, i+".zip")
-			return err
+			return
 		}
 
 		log.Printf("Creating ZIP archive for '%v' - by path %v", i, i+".zip")
@@ -85,10 +86,11 @@ func CreateArchiveDB(dumpList []string) error {
 
 		if err != nil {
 			log.Printf("Can't delete file %v. Error: %v", i, err)
-			return err
+			return
 		}
 
 		log.Printf("File successful deleted '%v'", i)
+		backupFiles = append(backupFiles, backupFile)
 	}
-	return nil
+	return backupFiles, nil
 }

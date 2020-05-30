@@ -141,11 +141,11 @@ func CreateArchive(files []string, nameArchive string) (err error) {
 }
 
 // CreateArchives - create archives
-func CreateArchives(cfg *config.Config) {
+func CreateArchives(cfg *config.Config) (backupFiles []string) {
 	t := strings.Replace(time.Now().Format("02-01-2006"), "-", "_", 2)
 	for _, p := range cfg.BackupSourceFilesPath["projects"][0] {
-		pathZipFile := cfg.BackupStoragePath + "/" + p["project_name"] + "_" + t + "_" + cfg.NameZipFile
 
+		pathZipFile := cfg.BackupStoragePath + "/" + p["project_name"] + "_" + t + "_" + cfg.NameZipFile
 		err := CreateArchive(strings.Split(p["dirs"], ","), pathZipFile)
 
 		if err != nil {
@@ -154,5 +154,8 @@ func CreateArchives(cfg *config.Config) {
 			log.Printf("Archive %+v was successful created\n", pathZipFile)
 
 		}
+
+		backupFiles = append(backupFiles, pathZipFile)
 	}
+	return backupFiles
 }

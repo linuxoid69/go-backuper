@@ -13,6 +13,8 @@ type Config struct {
 	CronFiles             string                           `yaml:"cron_files"`
 	CronDB                string                           `yaml:"cron_db"`
 	TimeZone              string                           `yaml:"time_zone"`
+	EncryptBackup         bool                             `yaml:"encrypt_backup"`
+	EncryptPassword       string                           `yaml:"encrypt_password"`
 	Database              struct {
 		Host     string   `yaml:"host"`
 		Port     int      `yaml:"port"`
