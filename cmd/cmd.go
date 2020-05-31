@@ -3,12 +3,12 @@ package cmd
 import (
 	"flag"
 	"fmt"
-	"log"
-	"os"
-	"time"
 	"github.com/linuxoid69/go-backuper/config"
 	"github.com/linuxoid69/go-backuper/cron"
 	"github.com/linuxoid69/go-backuper/encryption"
+	"log"
+	"os"
+	"time"
 )
 
 // CmdFlags - all flags of command line
@@ -76,9 +76,11 @@ func GetConfig() (cfg *config.Config, err error) {
 	log.Println("Start load config")
 	_, envConfig := os.LookupEnv("CONFIG")
 
-	if envConfig == true && flagConfig == "" {
+	if envConfig == true {
+		log.Println("Get config from env CONFIG")
 		cfg, err = config.LoadConfig(os.Getenv("CONFIG"))
 	} else if envConfig == false && flagConfig != "" {
+		log.Println("Get config from file")
 		cfg, err = config.LoadConfig(flagConfig)
 	}
 
@@ -86,14 +88,14 @@ func GetConfig() (cfg *config.Config, err error) {
 		log.Fatalf("Can't load config %v: ", err)
 	}
 
-	log.Printf("Config %s was successfully loaded", flagConfig)
+	log.Println("Config was successfully loaded")
 	return cfg, nil
 }
 
 // RunDaemon - function run application in mode daemon
-func RunDaemon()  {
+func RunDaemon() {
 	if flagDaemon == true {
-    	log.Println("Start daemon")
+		log.Println("Start daemon")
 		cfg, _ := GetConfig()
 		cron.TasksCron(cfg)
 		for {

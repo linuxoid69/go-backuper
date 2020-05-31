@@ -5,17 +5,16 @@ import (
 	"crypto/cipher"
 	"crypto/md5"
 	"crypto/rand"
+	"encoding/base64"
+	"encoding/hex"
+	"errors"
 	"fmt"
+	"github.com/linuxoid69/go-backuper/config"
+	"io"
 	"io/ioutil"
 	"log"
 	"os"
 	"strings"
-	"encoding/base64"
-	"errors"
-	"encoding/hex"
-	"io"
-	"github.com/linuxoid69/go-backuper/config"
-
 )
 
 func encryptText(password string, text []byte) ([]byte, error) {
@@ -130,17 +129,17 @@ func passwordToHash(password string) []byte {
 }
 
 // RunEncrypt - running a process of backup
-func RunEncrypt(fileList []string, cfg *config.Config ){
-	if (cfg.EncryptBackup == true && cfg.EncryptPassword != ""){
+func RunEncrypt(fileList []string, cfg *config.Config) {
+	if cfg.EncryptBackup == true && cfg.EncryptPassword != "" {
 		for _, f := range fileList {
 			err := EncryptFile(cfg.EncryptPassword, f)
-			if err != nil{
+			if err != nil {
 				log.Printf("File %s wasn't encrypted. %v", f, err)
 			}
 		}
-	} else if (cfg.EncryptBackup == true && cfg.EncryptPassword == "") {
+	} else if cfg.EncryptBackup == true && cfg.EncryptPassword == "" {
 		log.Println("You should set a password")
-	} else if (cfg.EncryptBackup == false && cfg.EncryptPassword != ""){
+	} else if cfg.EncryptBackup == false && cfg.EncryptPassword != "" {
 		log.Println("You have to enable an option `encrypt_backup` in you config file")
 	}
 }
