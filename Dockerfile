@@ -8,4 +8,4 @@ RUN chmod +x /opt/go-backuper && \
     mkdir -p /mnt/backups && \
     mkdir -p /mnt/data
 
-CMD ["/opt/go-backuper"]
+CMD ["/opt/go-backuper", "-d"]

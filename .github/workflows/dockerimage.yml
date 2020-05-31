@@ -4,8 +4,8 @@ on:
   repository_dispatch:
     types: [docker-build]
 env:
-  APP_VERSION: 0.2.0
-  
+  APP_VERSION: 0.2.1
+
 jobs:
   dockerBuild:
     runs-on: ubuntu-latest
