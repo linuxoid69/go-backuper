@@ -132,7 +132,9 @@ func passwordToHash(password string) []byte {
 func RunEncrypt(fileList []string, cfg *config.Config) {
 	if cfg.EncryptBackup == true && cfg.EncryptPassword != "" {
 		for _, f := range fileList {
+			log.Printf("Start encrypt file %s", f)
 			err := EncryptFile(cfg.EncryptPassword, f)
+			log.Printf("File %s was successfully encrypted", f)
 			if err != nil {
 				log.Printf("File %s wasn't encrypted. %v", f, err)
 			}
