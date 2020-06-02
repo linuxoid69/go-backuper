@@ -32,9 +32,7 @@ jobs:
         fi
 
     - name: Build
-      env:
-        SHA: $GITHUB_SHA
-      run: go build -ldflags="-s -w -X main.version=${{ env.APP_VERSION }} -X main.commit=${{ env.SHA }}" -v .
+      run: go build -ldflags="-s -w -X main.version=${{ env.APP_VERSION }} -X main.commit=${{ github.sha }}" -v .
 
     - uses: actions/upload-artifact@v1
       with:
