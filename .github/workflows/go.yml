@@ -5,7 +5,7 @@ on:
     branches: [ master ]
 
 env:
-  APP_VERSION: 0.2.2
+  APP_VERSION: 0.2.3
 
 jobs:
 
@@ -32,7 +32,7 @@ jobs:
         fi
 
     - name: Build
-      run: go build -ldflags="-s -w" -v .
+      run: go build -ldflags="-s -w -X main.version=${{ env.APP_VERSION }} -X main.commit=${{ env.GITHUB_SHA }}" -v .
 
     - uses: actions/upload-artifact@v1
       with:
@@ -44,3 +44,4 @@ jobs:
       with:
         token: ${{ secrets.REPO_ACCESS_TOKEN }}
         event-type: docker-build
+        client-payload: '{"version": "${{ env.APP_VERSION }}"}'

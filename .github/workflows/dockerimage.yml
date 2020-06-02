@@ -3,8 +3,8 @@ name: Docker Image CI
 on:
   repository_dispatch:
     types: [docker-build]
-env:
-  APP_VERSION: 0.2.2
+# env:
+#   APP_VERSION: 0.2.2
 
 jobs:
   dockerBuild:
@@ -23,12 +23,12 @@ jobs:
 
     - name: Build the Docker image
       run: |
-        echo "my var: ${{ env.APP_VERSION }}"
-        docker build .  --tag docker.io/linuxoid69/go-backuper:${{ env.APP_VERSION }}
-        docker tag docker.io/linuxoid69/go-backuper:${{ env.APP_VERSION }} docker.io/linuxoid69/go-backuper:latest
+        echo "my var: ${{ github.event.client_payload.version }}"
+        docker build .  --tag docker.io/linuxoid69/go-backuper:${{ github.event.client_payload.version }}
+        docker tag docker.io/linuxoid69/go-backuper:${{ github.event.client_payload.version }} docker.io/linuxoid69/go-backuper:latest
 
     - name: Deploy the Docker image
       run: |
         docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
-        docker push docker.io/linuxoid69/go-backuper:${{ env.APP_VERSION }}
+        docker push docker.io/linuxoid69/go-backuper:${{ github.event.client_payload.version }}
         docker push docker.io/linuxoid69/go-backuper:latest
