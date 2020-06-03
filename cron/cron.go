@@ -1,22 +1,23 @@
 package cron
 
 import (
+	"log"
+	"time"
+
 	bdb "github.com/linuxoid69/go-backuper/backupdb"
 	bf "github.com/linuxoid69/go-backuper/backupfiles"
 	"github.com/linuxoid69/go-backuper/config"
 	en "github.com/linuxoid69/go-backuper/encryption"
-	"github.com/robfig/cron"
-	"log"
-	"time"
+	// "github.com/robfig/cron"
+	cron "github.com/robfig/cron/v3"
 )
 
 // TasksCron - function run tasks of Cron
 func TasksCron(cfg *config.Config) {
 	l, _ := time.LoadLocation(cfg.TimeZone)
 	c := cron.New()
-	cron.NewWithLocation(l)
+	cron.WithLocation(l)
 	log.Printf("Time zone: %s", l)
-
 	c.AddFunc(cfg.CronFiles, func() {
 		backupFiles := bf.CreateArchives(cfg)
 		en.RunEncrypt(backupFiles, cfg)
