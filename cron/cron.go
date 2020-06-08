@@ -8,6 +8,8 @@ import (
 	bf "github.com/linuxoid69/go-backuper/backupfiles"
 	"github.com/linuxoid69/go-backuper/config"
 	en "github.com/linuxoid69/go-backuper/encryption"
+	"github.com/linuxoid69/go-backuper/retention"
+
 	// "github.com/robfig/cron"
 	cron "github.com/robfig/cron/v3"
 )
@@ -30,6 +32,10 @@ func TasksCron(cfg *config.Config) {
 		}
 		backupDB, _ := bdb.CreateArchiveDB(SQLFiles)
 		en.RunEncrypt(backupDB, cfg)
+	})
+
+	c.AddFunc("0 */1 * * *", func() {
+		retention.RetentionPolicy(cfg)
 	})
 
 	c.Start()

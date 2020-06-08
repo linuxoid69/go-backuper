@@ -3,10 +3,10 @@ package backupfiles
 import (
 	"archive/zip"
 	"github.com/linuxoid69/go-backuper/config"
+	"github.com/linuxoid69/go-backuper/helpers"
 	"io"
 	"log"
 	"os"
-	"path/filepath"
 	"strings"
 	"time"
 )
@@ -70,59 +70,11 @@ func AddFileToZip(zipWriter *zip.Writer, filename string) error {
 	return err
 }
 
-// Find - find files in directory return files and directories
-// dirname - path type string.
-// outputType - (files, dirs) if arg is empty will be output both file and dir.
-func Find(dirname string, outputType string) (files []string, err error) {
-
-	err = filepath.Walk(dirname,
-		func(path string, info os.FileInfo, err error) error {
-			if err != nil {
-				return err
-			}
-			files = append(files, path)
-			return nil
-		})
-	if err != nil {
-		return []string{}, err
-	}
-	filesOutput := []string{}
-
-	switch output := outputType; output {
-	case "dirs":
-		for _, i := range files {
-			if isDirectory(i) {
-				filesOutput = append(filesOutput, i)
-			}
-		}
-		return filesOutput, nil
-	case "files":
-		for _, i := range files {
-			if !isDirectory(i) {
-				filesOutput = append(filesOutput, i)
-			}
-		}
-		return filesOutput, nil
-	default:
-		return files, nil
-	}
-
-}
-
-// IsDirectory - detect is directory or not
-func isDirectory(name string) bool {
-	info, err := os.Stat(name)
-	if err != nil {
-		log.Fatalf("Error %v", err)
-	}
-	return info.IsDir()
-}
-
 // CreateArchive - create archive
 func CreateArchive(files []string, nameArchive string) (err error) {
 	totalFiles := []string{}
 	for _, i := range files {
-		out, err := Find(i, "files")
+		out, err := helpers.Find(i, "files", 0)
 
 		if err != nil {
 			log.Printf("Error %v", err)

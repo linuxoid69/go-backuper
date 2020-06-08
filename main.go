@@ -9,10 +9,10 @@ import (
 )
 
 var (
-	cfg *config.Config
-	err error
+	cfg     *config.Config
+	err     error
 	version string
-	commit string
+	commit  string
 )
 
 func init() {

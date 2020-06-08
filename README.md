@@ -11,6 +11,8 @@ Below consider the example of config.
 ```yaml
 # path where storage backups
 backup_storage_path: /mnt/data
+# specifies the number of day for retention backup (0 - the backup will don't delete)
+backup_retention_days: 0
 
 # Name a zip file suffix. File will be look as <project_name>_19_03_2020_backup.zip
 # project_name - from section backup_source_files_path. See below.

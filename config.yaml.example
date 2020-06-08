@@ -1,6 +1,6 @@
 ---
 backup_storage_path: /tmp
-
+backup_retention_days: 0
 cron_files: "31 16 * * *"
 cron_db: "32 16 * * *"
 name_zip_file: backup.zip

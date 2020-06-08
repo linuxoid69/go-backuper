@@ -8,6 +8,7 @@ import (
 // Config - struct of config
 type Config struct {
 	BackupStoragePath     string                           `yaml:"backup_storage_path"`
+	BackupRetentionDays   int                              `yaml:"backup_retention_days"`
 	NameZipFile           string                           `yaml:"name_zip_file"`
 	BackupSourceFilesPath map[string][][]map[string]string `yaml:"backup_source_files_path"`
 	CronFiles             string                           `yaml:"cron_files"`
