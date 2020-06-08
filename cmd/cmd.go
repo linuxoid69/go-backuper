@@ -17,16 +17,18 @@ var (
 	flagPassword string
 	flagConfig   string
 	flagDaemon   bool
-	// help         bool
 )
 
 func cmdInit() {
-	// flag.BoolVar(&help, "h", false, "Help")
 	flag.StringVar(&flagFile, "f", "", "Name of a file is for decrypt")
 	flag.BoolVar(&flagDaemon, "d", false, "Run as daemon")
 	flag.StringVar(&flagPassword, "p", "", "Password is for decrypt")
 	flag.StringVar(&flagConfig, "c", "./config.yaml", "config")
 	flag.Parse()
+	if len(os.Args) <= 1 {
+		flag.Usage()
+		os.Exit(0)
+	}
 }
 
 const (
@@ -37,7 +39,6 @@ const (
 // Run - main function for use flags
 func Run() {
 	cmdInit()
-	checkFlags()
 	cmdDecryptFile()
 	RunDaemon()
 }
@@ -62,13 +63,6 @@ func cmdDecryptFile() {
 		cmdExit(fmt.Sprintf("File %s was seccesfully decrypted", flagFile), exitSuccess)
 	}
 	log.Println(flagFile)
-}
-
-func checkFlags() {
-	if len(os.Args) <= 1 {
-		flag.Usage()
-		os.Exit(0)
-	}
 }
 
 // GetConfig - function get config
