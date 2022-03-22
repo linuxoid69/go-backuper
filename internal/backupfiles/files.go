@@ -2,20 +2,22 @@ package backupfiles
 
 import (
 	"archive/zip"
-	"github.com/linuxoid69/go-backuper/config"
-	"github.com/linuxoid69/go-backuper/internal/helpers"
+	"fmt"
 	"io"
-	"log"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/sirupsen/logrus"
+
+	"github.com/linuxoid69/go-backuper/config"
+	"github.com/linuxoid69/go-backuper/internal/helpers"
 )
 
 // ZipFiles - create zip archive
 // files - files for adding to an archive
 // zipFileName - a name of zip file
 func ZipFiles(files []string, zipFileName string) error {
-
 	newZipFile, err := os.Create(zipFileName)
 	if err != nil {
 		return err
@@ -31,12 +33,12 @@ func ZipFiles(files []string, zipFileName string) error {
 			return err
 		}
 	}
+
 	return nil
 }
 
 // AddFileToZip - adding files to zip archive
 func AddFileToZip(zipWriter *zip.Writer, filename string) error {
-
 	fileToZip, err := os.Open(filename)
 	if err != nil {
 		return err
@@ -66,48 +68,57 @@ func AddFileToZip(zipWriter *zip.Writer, filename string) error {
 	if err != nil {
 		return err
 	}
-	_, err = io.Copy(writer, fileToZip)
-	return err
+
+	if _, err = io.Copy(writer, fileToZip); err != nil {
+		return err
+	}
+
+	return nil
 }
 
-// CreateArchive - create archive
+// CreateArchive - create archive.
 func CreateArchive(files []string, nameArchive string) (err error) {
-	totalFiles := []string{}
+	allFiles := []string{}
+	rDays := 0
+
 	for _, i := range files {
-		out, err := helpers.Find(i, "files", 0)
+		out, err := helpers.Find(i, "files", rDays)
 
 		if err != nil {
-			log.Printf("Error %v", err)
+			logrus.Errorf("Error %w", err)
 		}
 
 		for _, f := range out {
-			totalFiles = append(totalFiles, f)
+			allFiles = append(allFiles, f)
 		}
 	}
-	err = ZipFiles(totalFiles, nameArchive)
-	if err != nil {
+
+	if err = ZipFiles(allFiles, nameArchive); err != nil {
 		return err
 	}
-	return nil
 
+	return nil
 }
 
 // CreateArchives - create archives
-func CreateArchives(cfg *config.Config) (backupFiles []string) {
-	t := strings.Replace(time.Now().Format("02-01-2006"), "-", "_", 2)
+func CreateArchives(cfg *config.Config) (backupFiles []string, err error) {
+	dateString := strings.Replace(time.Now().Format("02-01-2006"), "-", "_", 2)
 	for _, p := range cfg.BackupSourceFilesPath["projects"][0] {
+		pathZipFile := fmt.Sprintf("%s/%s_%s_%s", cfg.BackupStoragePath,
+			p["project_name"],
+			dateString,
+			cfg.NameZipFile)
 
-		pathZipFile := cfg.BackupStoragePath + "/" + p["project_name"] + "_" + t + "_" + cfg.NameZipFile
-		err := CreateArchive(strings.Split(p["dirs"], ","), pathZipFile)
+		if err := CreateArchive(strings.Split(p["dirs"], ","), pathZipFile); err != nil {
+			logrus.Errorf("Archive %+v didn't successful created\n", pathZipFile)
 
-		if err != nil {
-			log.Printf("Archive %+v didn't successful created\n", pathZipFile)
+			return backupFiles, err
 		} else {
-			log.Printf("Archive %+v was successful created\n", pathZipFile)
-
+			logrus.Infof("Archive %+v was successful created\n", pathZipFile)
 		}
 
 		backupFiles = append(backupFiles, pathZipFile)
 	}
-	return backupFiles
+
+	return backupFiles, nil
 }
