@@ -2,7 +2,7 @@ package backupdb
 
 import (
 	"fmt"
-	bf "github.com/linuxoid69/go-backuper/backupfiles"
+	bf "github.com/linuxoid69/go-backuper/internal/backupfiles"
 	"github.com/linuxoid69/go-backuper/config"
 	"log"
 	"os"

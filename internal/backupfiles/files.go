@@ -3,7 +3,7 @@ package backupfiles
 import (
 	"archive/zip"
 	"github.com/linuxoid69/go-backuper/config"
-	"github.com/linuxoid69/go-backuper/helpers"
+	"github.com/linuxoid69/go-backuper/internal/helpers"
 	"io"
 	"log"
 	"os"

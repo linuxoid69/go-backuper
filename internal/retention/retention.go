@@ -2,7 +2,7 @@ package retention
 
 import (
 	"github.com/linuxoid69/go-backuper/config"
-	"github.com/linuxoid69/go-backuper/helpers"
+	"github.com/linuxoid69/go-backuper/internal/helpers"
 	"os"
 )
 

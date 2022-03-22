@@ -1,8 +1,9 @@
 package config
 
 import (
-	"gopkg.in/yaml.v2"
 	"io/ioutil"
+
+	"gopkg.in/yaml.v2"
 )
 
 // Config - struct of config
@@ -29,19 +30,23 @@ type Config struct {
 // readConfig - read config file
 func readConfig(path string) ([]byte, error) {
 	dat, err := ioutil.ReadFile(path)
+
 	return dat, err
 }
 
-// LoadConfig -load config from config.yaml
+// LoadConfig -load config from config.yaml.
 func LoadConfig(configPath string) (*Config, error) {
 	conf := Config{}
+
 	dat, err := readConfig(configPath)
 	if err != nil {
 		return &conf, err
 	}
+
 	err = yaml.Unmarshal([]byte(dat), &conf)
 	if err != nil {
 		return &conf, err
 	}
+
 	return &conf, nil
 }
